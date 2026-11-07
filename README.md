@@ -17,9 +17,11 @@ Minecraft **26.3 / Fabric** 的区块增量备份模组，支持独立服务器�
 
 每次备份记录完整世界索引，地形、实体和 POI 按区块去重，只保存新增内容；其他世界文件按文件去重。任一保留快照都可独立恢复，无需逐份叠加。
 
+Voxy 的远景渲染缓存不纳入备份，恢复世界后可重新生成。
+
 ## 安装
 
-从 [Releases](https://github.com/HXwHSJS/vanilla-chunk-backup/releases) 下载 `vanilla-chunk-backup-1.1.0+26.3.jar`，放入实例的 `mods/`，重新启动游戏或服务器。
+从 [Releases](https://github.com/HXwHSJS/vanilla-chunk-backup/releases) 下载 `vanilla-chunk-backup-1.1.1+26.3.jar`，放入实例的 `mods/`，重新启动游戏或服务器。
 
 需要 Minecraft 26.3、Fabric Loader 0.20.1 或更高版本、Fabric API 0.165.0+26.3 或更高兼容版本，以及 Java 25。其他 Minecraft 版本尚未验证。
 

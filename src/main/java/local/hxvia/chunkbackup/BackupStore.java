@@ -160,6 +160,8 @@ public final class BackupStore {
         List<Path> files = new ArrayList<>();
         Files.walkFileTree(world, new SimpleFileVisitor<>() {
             @Override public FileVisitResult preVisitDirectory(Path folder, BasicFileAttributes attributes) throws IOException {
+                // Voxy owns a live LOD database here; rebuild it from world chunks instead of copying it.
+                if (folder.equals(world.resolve("voxy"))) return FileVisitResult.SKIP_SUBTREE;
                 if (!folder.equals(world) && Set.of(".git", ".cache").contains(folder.getFileName().toString())) return FileVisitResult.SKIP_SUBTREE;
                 return FileVisitResult.CONTINUE;
             }

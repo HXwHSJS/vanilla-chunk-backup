@@ -1,0 +1,99 @@
+{
+  "version": "1.1.1+26.3",
+  "checkedAt": "2026-11-08T02:55:26+08:00",
+  "artifact": "vanilla-chunk-backup-1.1.1+26.3.jar",
+  "bytes": 70623,
+  "sha256": "f6d2653c309bab86d198f600dcbc3a3634b3f7f2d2548a4f20df0f610f764bf6",
+  "core": {
+    "status": "passed",
+    "checks": 57
+  },
+  "regressionBeforeFix": "The new Windows locked-cache fixture failed in BackupStore.putFile before the Voxy root exclusion was applied.",
+  "singleplayer": {
+    "status": "passed",
+    "integratedServer": true,
+    "ownerCanConfigure": true,
+    "hintColoredAndClickable": true,
+    "ownerConfigurationExecuted": true,
+    "successGreen": true,
+    "snapshotVerified": true,
+    "firstSnapshot": "2026-11-08_02-53-52_884+0800-4c812990",
+    "firstNewBytes": 423398,
+    "secondSnapshot": "2026-11-08_02-53-56_256+0800-ea3424dc",
+    "secondNewBytes": 567112,
+    "sharedChunkObjects": 520,
+    "secondReferencedObjects": 1825,
+    "secondNewObjects": 1289,
+    "voxyLoaded": true,
+    "voxyDatabaseObserved": true,
+    "voxyDatabaseLockUnreadable": true,
+    "voxyCacheExcludedFromSnapshots": true,
+    "voxyCachePreservedOnDisk": true,
+    "automaticBackupVerified": true,
+    "automaticSnapshot": "2026-11-08_02-54-05_635+0800-15750052",
+    "dedicatedRegistryAbsent": true
+  },
+  "singleplayerMods": [
+    {
+      "id": "c2me",
+      "version": "0.4.2-alpha.0.112+26.3",
+      "file": "c2me-fabric-mc26.3-0.4.2-alpha.0.112.jar",
+      "sha256": "c2595720b701aa93f152a3edf381f74ab9d5b909758adb97d76a6ba1ba2e24f8"
+    },
+    {
+      "id": "fabric-api",
+      "version": "0.165.0+26.3",
+      "file": "fabric-api-0.165.0+26.3.jar",
+      "sha256": "18442e2ad466d6ef41c37dbb4cb68495e6ca6658b1f1ee9be76143d155ef2c88"
+    },
+    {
+      "id": "lithium",
+      "version": "0.26.3+mc26.3",
+      "file": "lithium-fabric-0.26.3+mc26.3.jar",
+      "sha256": "103b6aab3932f119155565254a3f33b1be0da26b9bf7a5eec24851542144fc78"
+    },
+    {
+      "id": "sodium",
+      "version": "0.9.2+mc26.3",
+      "file": "sodium-fabric-0.9.2+mc26.3.jar",
+      "sha256": "87a5bb39f7e6e41106e77f122f82fc93f9d3bc0b6ebcb746b314172a446a287a"
+    },
+    {
+      "id": "vanilla_chunk_backup",
+      "version": "1.1.1+26.3",
+      "file": "vanilla-chunk-backup-1.1.1+26.3.jar",
+      "sha256": "f6d2653c309bab86d198f600dcbc3a3634b3f7f2d2548a4f20df0f610f764bf6"
+    },
+    {
+      "id": "vcb_client_smoke",
+      "version": "1.0.0",
+      "file": "vcb-client-smoke.jar",
+      "sha256": "069ab2f130d7efa9ad9f36b47d65c94629cf603c6e0e0532b681c259dd6be202"
+    },
+    {
+      "id": "voxy",
+      "version": "0.2.20-beta",
+      "file": "voxy-0.2.20-beta.jar",
+      "sha256": "c1a18126cb4c0d9e48e6b8a5b0ce17b0053e34473356ab94e8a971b0686bb290"
+    }
+  ],
+  "testOnlySettings": {
+    "backupIntervalMinutes": 1,
+    "activeProcessors": 4,
+    "voxyGeometryBufferMiB": 256,
+    "voxyServiceThreads": 2,
+    "voxySectionRenderDistance": 8
+  },
+  "compatibilityEvidence": "Installed Voxy 0.2.20-beta bytecode selects singleplayer world root / voxy; the real mod created a live RocksDB database whose LOCK could not be opened during this test.",
+  "artifactContainsTestHelpers": false,
+  "productionServerChanged": false,
+  "realUserWorldsModified": false,
+  "notTested": [
+    "full player mod collection",
+    "player saves after restarting with the patch",
+    "dedicated server integration for 1.1.1",
+    "production world restore",
+    "hardware power loss",
+    "hot restore"
+  ]
+}

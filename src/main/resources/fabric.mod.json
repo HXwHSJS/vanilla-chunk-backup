@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "vanilla_chunk_backup",
-  "version": "1.1.0+26.3",
+  "version": "1.1.1+26.3",
   "name": "Vanilla Chunk Backup",
   "description": "Chunk-level incremental backups for dedicated servers and singleplayer worlds.",
   "environment": "*",
