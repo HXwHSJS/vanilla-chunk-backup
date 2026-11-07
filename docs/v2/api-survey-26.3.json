@@ -1,0 +1,120 @@
+{
+  "status": "inspected",
+  "gameJarSha256": "4508d006323f24fa02876310c192d739af56516eb259000ac50f0909a68c9a2d",
+  "inspectionOnly": true,
+  "hotRestoreImplemented": false,
+  "worldFilesOpened": false,
+  "evidenceLimit": "Method and field presence only; no runtime unload, IO drain or cache invalidation is proven.",
+  "classes": {
+    "net.minecraft.server.level.ServerChunkCache": [
+      "public class net.minecraft.server.level.ServerChunkCache extends net.minecraft.world.level.chunk.ChunkSource {",
+      "public net.minecraft.world.level.chunk.LevelChunk getChunkNow(int, int);",
+      "public void save(boolean);",
+      "public void close() throws java.io.IOException;",
+      "public int getPendingTasksCount();",
+      "public int getLoadedChunksCount();",
+      "public it.unimi.dsi.fastutil.longs.LongSet getForceLoadedChunks();"
+    ],
+    "net.minecraft.server.level.ChunkMap": [
+      "public class net.minecraft.server.level.ChunkMap extends net.minecraft.world.level.chunk.storage.SimpleRegionStorage implements net.minecraft.server.level.ChunkHolder$PlayerProvider,net.minecraft.server.level.GeneratingChunkMap {",
+      "private static final net.minecraft.server.level.ChunkResult<java.util.List<net.minecraft.world.level.chunk.ChunkAccess>> UNLOADED_CHUNK_LIST_RESULT;",
+      "private static final java.util.concurrent.CompletableFuture<net.minecraft.server.level.ChunkResult<java.util.List<net.minecraft.world.level.chunk.ChunkAccess>>> UNLOADED_CHUNK_LIST_FUTURE;",
+      "private final it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap<net.minecraft.server.level.ChunkHolder> pendingUnloads;",
+      "private final java.util.List<net.minecraft.server.level.ChunkGenerationTask> pendingGenerationTasks;",
+      "private final java.util.Queue<java.lang.Runnable> unloadQueue;",
+      "public void close() throws java.io.IOException;",
+      "protected void saveAllChunks(boolean);",
+      "public boolean hasWork();",
+      "private void processUnloads(java.util.function.BooleanSupplier);",
+      "private void scheduleUnload(long, net.minecraft.server.level.ChunkHolder);",
+      "private boolean save(net.minecraft.world.level.chunk.ChunkAccess);",
+      "private void markChunkPendingToSend(net.minecraft.server.level.ServerPlayer, net.minecraft.world.level.ChunkPos);",
+      "private static void markChunkPendingToSend(net.minecraft.server.level.ServerPlayer, net.minecraft.world.level.chunk.LevelChunk);",
+      "private static void lambda$scheduleUnload$1(net.minecraft.server.level.ChunkHolder, java.lang.Void, java.lang.Throwable);",
+      "private void lambda$scheduleUnload$0(net.minecraft.server.level.ChunkHolder, java.util.concurrent.CompletableFuture, long);",
+      "private static boolean lambda$saveAllChunks$3();",
+      "private static void lambda$saveAllChunks$2(org.apache.commons.lang3.mutable.MutableBoolean, net.minecraft.world.level.chunk.ChunkAccess);",
+      "private static boolean lambda$saveAllChunks$1(net.minecraft.world.level.chunk.ChunkAccess);",
+      "private net.minecraft.world.level.chunk.ChunkAccess lambda$saveAllChunks$0(net.minecraft.server.level.ChunkHolder);"
+    ],
+    "net.minecraft.world.level.chunk.storage.SimpleRegionStorage": [
+      "Compiled from \"SimpleRegionStorage.java\"",
+      "public class net.minecraft.world.level.chunk.storage.SimpleRegionStorage implements java.lang.AutoCloseable {",
+      "private final net.minecraft.world.level.chunk.storage.IOWorker worker;",
+      "public net.minecraft.world.level.chunk.storage.SimpleRegionStorage(net.minecraft.world.level.chunk.storage.RegionStorageInfo, java.nio.file.Path, com.mojang.datafixers.DataFixer, boolean, net.minecraft.util.datafix.DataFixTypes);",
+      "public java.util.concurrent.CompletableFuture<java.lang.Void> synchronize(boolean);",
+      "public void close() throws java.io.IOException;"
+    ],
+    "net.minecraft.world.level.chunk.storage.IOWorker": [
+      "Compiled from \"IOWorker.java\"",
+      "public class net.minecraft.world.level.chunk.storage.IOWorker implements java.lang.AutoCloseable,net.minecraft.world.level.chunk.storage.ChunkScanAccess {",
+      "private final net.minecraft.world.level.chunk.storage.RegionFileStorage storage;",
+      "private final java.util.SequencedMap<net.minecraft.world.level.ChunkPos, net.minecraft.world.level.chunk.storage.IOWorker$PendingStore> pendingWrites;",
+      "private final it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap<java.util.concurrent.CompletableFuture<java.util.BitSet>> regionCacheForBlender;",
+      "protected net.minecraft.world.level.chunk.storage.IOWorker(net.minecraft.world.level.chunk.storage.RegionStorageInfo, java.nio.file.Path, boolean);",
+      "public java.util.concurrent.CompletableFuture<java.lang.Void> synchronize(boolean);",
+      "private <T> java.util.concurrent.CompletableFuture<T> submitThrowingTask(net.minecraft.world.level.chunk.storage.IOWorker$ThrowingSupplier<T>);",
+      "private void storePendingChunk();",
+      "private void tellStorePending();",
+      "private void runStore(net.minecraft.world.level.ChunkPos, net.minecraft.world.level.chunk.storage.IOWorker$PendingStore);",
+      "public void close() throws java.io.IOException;",
+      "private void lambda$submitThrowingTask$0(net.minecraft.world.level.chunk.storage.IOWorker$ThrowingSupplier, java.util.concurrent.CompletableFuture);",
+      "private java.util.concurrent.CompletionStage lambda$synchronize$5(java.lang.Void);",
+      "private static java.lang.Void lambda$synchronize$6();",
+      "private java.util.concurrent.CompletionStage lambda$synchronize$3(java.lang.Void);",
+      "private java.lang.Void lambda$synchronize$4() throws java.lang.Exception;",
+      "private java.util.concurrent.CompletableFuture lambda$synchronize$0();",
+      "private static java.util.concurrent.CompletableFuture[] lambda$synchronize$2(int);",
+      "private static java.util.concurrent.CompletableFuture lambda$synchronize$1(net.minecraft.world.level.chunk.storage.IOWorker$PendingStore);",
+      "private static net.minecraft.world.level.chunk.storage.IOWorker$PendingStore lambda$store$2(net.minecraft.nbt.CompoundTag, net.minecraft.world.level.ChunkPos);"
+    ],
+    "net.minecraft.world.level.chunk.storage.SectionStorage": [
+      "private final net.minecraft.world.level.chunk.storage.SimpleRegionStorage simpleRegionStorage;",
+      "private final it.unimi.dsi.fastutil.longs.Long2ObjectMap<java.util.Optional<R>> storage;",
+      "private final it.unimi.dsi.fastutil.longs.LongSet loadedChunks;",
+      "private final it.unimi.dsi.fastutil.longs.Long2ObjectMap<java.util.concurrent.CompletableFuture<java.util.Optional<net.minecraft.world.level.chunk.storage.SectionStorage$PackedChunk<P>>>> pendingLoads;",
+      "public net.minecraft.world.level.chunk.storage.SectionStorage(net.minecraft.world.level.chunk.storage.SimpleRegionStorage, com.mojang.serialization.Codec<P>, java.util.function.Function<R, P>, java.util.function.BiFunction<P, java.lang.Runnable, R>, java.util.function.Function<java.lang.Runnable, R>, net.minecraft.core.RegistryAccess, net.minecraft.world.level.chunk.storage.ChunkIOErrorReporter, net.minecraft.world.level.LevelHeightAccessor);",
+      "private void unpackPendingLoads();",
+      "public void flushAll();",
+      "public boolean hasWork();",
+      "public void flush(net.minecraft.world.level.ChunkPos);",
+      "public void close() throws java.io.IOException;",
+      "private void lambda$flushAll$0(long);"
+    ],
+    "net.minecraft.world.level.entity.PersistentEntitySectionManager": [
+      "public class net.minecraft.world.level.entity.PersistentEntitySectionManager<T extends net.minecraft.world.level.entity.EntityAccess> implements java.lang.AutoCloseable {",
+      "private final it.unimi.dsi.fastutil.longs.LongSet chunksToUnload;",
+      "private static <T extends net.minecraft.world.level.entity.EntityAccess> net.minecraft.world.level.entity.Visibility getEffectiveStatus(T, net.minecraft.world.level.entity.Visibility);",
+      "private boolean processChunkUnload(long);",
+      "private void unloadEntity(net.minecraft.world.level.entity.EntityAccess);",
+      "private void processUnloads();",
+      "public void processPendingLoads();",
+      "private it.unimi.dsi.fastutil.longs.LongSet getAllChunksToSave();",
+      "public void autoSave();",
+      "public void saveAll();",
+      "public void close() throws java.io.IOException;",
+      "public boolean isLoaded(java.util.UUID);",
+      "private boolean lambda$saveAll$0(long);",
+      "private static void lambda$saveAll$1(net.minecraft.world.level.entity.EntityAccess);",
+      "private void lambda$processPendingLoads$0(net.minecraft.world.level.entity.EntityAccess);",
+      "private boolean lambda$processUnloads$0(long);",
+      "private void lambda$processChunkUnload$0(net.minecraft.world.level.entity.EntityAccess);"
+    ],
+    "net.minecraft.world.level.chunk.storage.EntityStorage": [
+      "private final net.minecraft.world.level.chunk.storage.SimpleRegionStorage simpleRegionStorage;",
+      "public net.minecraft.world.level.chunk.storage.EntityStorage(net.minecraft.world.level.chunk.storage.SimpleRegionStorage, net.minecraft.server.level.ServerLevel, java.util.concurrent.Executor);",
+      "public void flush(boolean);",
+      "public void close() throws java.io.IOException;"
+    ],
+    "net.minecraft.world.level.chunk.storage.RegionFileStorage": [
+      "private final it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap<java.util.Optional<net.minecraft.world.level.chunk.storage.RegionFile>> regionCache;",
+      "public void close() throws java.io.IOException;",
+      "public void flush() throws java.io.IOException;"
+    ],
+    "net.minecraft.world.level.TicketStorage": [
+      "public class net.minecraft.world.level.TicketStorage extends net.minecraft.world.level.saveddata.SavedData {",
+      "public java.util.List<net.minecraft.server.level.Ticket> getTickets(long);",
+      "public it.unimi.dsi.fastutil.longs.LongSet getForceLoadedChunks();"
+    ]
+  }
+}
