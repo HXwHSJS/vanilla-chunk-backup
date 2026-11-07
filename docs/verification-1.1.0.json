@@ -1,0 +1,59 @@
+{
+  "version": "1.1.0+26.3",
+  "checkedDate": "2026-11-08",
+  "artifact": "vanilla-chunk-backup-1.1.0+26.3.jar",
+  "bytes": 70579,
+  "sha256": "df23ccd4b91943310dfc57435102d543a3e4fb2b2620465fbe1cc72c8bfc6df5",
+  "core": {
+    "status": "passed",
+    "checks": 47
+  },
+  "dedicatedServer": {
+    "status": "passed",
+    "checkCount": 18,
+    "checks": [
+      "candidate loads with the installed server mods",
+      "region capture mixin loads",
+      "legacy snapshots remain discoverable",
+      "legacy snapshot objects verify with the candidate",
+      "non-OP player can back up and cannot configure or restore",
+      "consecutive completed player requests have no added cooldown",
+      "new filenames contain readable date, time and timezone",
+      "player list displays readable times and labels",
+      "new snapshot objects pass SHA-256 verification",
+      "offline restore refuses a running world",
+      "cold restore queues a durable date-named snapshot plan",
+      "cold restore recovers selected terrain, container, entity and POI",
+      "cold restore preserves neighboring positive and negative chunks",
+      "successful restart clears the pending plan",
+      "wall-clock automatic backup runs with a test-only one-minute interval",
+      "offline list reads legacy and date-named snapshots together",
+      "date-named snapshot exports a complete world into a new directory",
+      "watched production services retain their original state and PID"
+    ]
+  },
+  "singleplayer": {
+    "status": "passed",
+    "integratedServer": true,
+    "ownerCanConfigure": true,
+    "hintColoredAndClickable": true,
+    "ownerConfigurationExecuted": true,
+    "successGreen": true,
+    "snapshotVerified": true,
+    "firstNewBytes": 402412,
+    "secondNewBytes": 726763,
+    "sharedChunkObjects": 107,
+    "secondReferencedObjects": 1418,
+    "secondNewObjects": 1294,
+    "dedicatedRegistryAbsent": true
+  },
+  "singleplayerCheatsEnabled": false,
+  "artifactContainsTestHelpers": false,
+  "notTested": [
+    "production world restore",
+    "multiplayer load",
+    "hardware power loss",
+    "cross-boundary entity UUID reconciliation",
+    "hot restore"
+  ]
+}
