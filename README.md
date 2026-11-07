@@ -17,9 +17,11 @@ Minecraft **26.3 / Fabric** 的区块增量备份模组，支持独立服务器�
 
 每次备份记录完整世界索引，地形、实体和 POI 按区块去重，只保存新增内容；其他世界文件按文件去重。任一保留快照都可独立恢复，无需逐份叠加。
 
+Voxy 的远景渲染缓存不纳入备份，恢复世界后可重新生成。
+
 ## 安装
 
-从 [Releases](https://github.com/HXwHSJS/vanilla-chunk-backup/releases) 下载 `vanilla-chunk-backup-1.1.0+26.3.jar`，放入实例的 `mods/`，重新启动游戏或服务器。
+从 [Releases](https://github.com/HXwHSJS/vanilla-chunk-backup/releases) 下载 `vanilla-chunk-backup-1.1.1+26.3.jar`，放入实例的 `mods/`，重新启动游戏或服务器。
 
 需要 Minecraft 26.3、Fabric Loader 0.20.1 或更高版本、Fabric API 0.165.0+26.3 或更高兼容版本，以及 Java 25。其他 Minecraft 版本尚未验证。
 
@@ -44,4 +46,4 @@ Minecraft **26.3 / Fabric** 的区块增量备份模组，支持独立服务器�
 
 管理员配置、停服区块回退和单人世界离线恢复见 [管理说明](docs/administration.md)。构建与验证见 [开发说明](docs/development.md)，存储和事务设计见 [设计说明](docs/design.md)。第二版热回退处于准备阶段，尚未提供在线回退功能。
 
-本开发分支的第二版范围、接口证据和里程碑见 [热回退准备](docs/v2/hot-restore.md)。发布版仍为 `v1.1.0+26.3`。
+本开发分支的第二版范围、接口证据和里程碑见 [热回退准备](docs/v2/hot-restore.md)。发布版为 `v1.1.1+26.3`，已合入单人世界 Voxy 兼容修复。

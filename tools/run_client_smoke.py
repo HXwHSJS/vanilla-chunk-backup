@@ -2,18 +2,22 @@
 from pathlib import Path
 import argparse
 import datetime
+import hashlib
 import json
 import os
 import platform
 import shutil
 import subprocess
 import sys
+import zipfile
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--client', type=Path, required=True, help='Installed Fabric 26.3 version directory')
 parser.add_argument('--java', required=True)
 parser.add_argument('--fixture', type=Path, required=True, help='Synthetic world; never a real player save')
 parser.add_argument('--timeout', type=int, default=270)
+parser.add_argument('--extra-mod', action='append', default=[], help='Installed mod filename to include in the synthetic profile; repeatable')
+parser.add_argument('--check-automatic', action='store_true', help='Also check automatic backup using a synthetic one-minute interval')
 args = parser.parse_args()
 root = Path(__file__).resolve().parents[1]
 build = root / 'build'
@@ -31,6 +35,33 @@ api = list((args.client / 'mods').glob('fabric-api-*.jar'))
 if len(api) != 1:
     raise SystemExit('Expected exactly one installed Fabric API')
 shutil.copy2(api[0], game / 'mods' / api[0].name)
+extra_ids = set()
+for name in args.extra_mod:
+    if Path(name).name != name:
+        raise SystemExit('--extra-mod must be a filename within the installed mods directory')
+    source = args.client / 'mods' / name
+    with zipfile.ZipFile(source) as archive:
+        mod = json.loads(archive.read('fabric.mod.json'))
+    if mod['id'] in ('vanilla_chunk_backup', 'vcb_client_smoke', 'fabric-api'):
+        raise SystemExit('Test runner already supplies mod: ' + mod['id'])
+    shutil.copy2(source, game / 'mods' / name)
+    extra_ids.add(mod['id'])
+(game / 'config').mkdir()
+if args.check_automatic:
+    (game / 'config/vanilla_chunk_backup.json').write_text(json.dumps({'intervalMinutes': 1}), encoding='utf-8')
+if 'voxy' in extra_ids:
+    (game / 'config/voxy-config.json').write_text(json.dumps({
+        'enabled': True, 'enable_rendering': True, 'ingest_enabled': True,
+        'section_render_distance': 8.0, 'service_threads': 2,
+        'sub_division_size': 64.0, 'dont_use_sodium_builder_threads': False,
+    }), encoding='utf-8')
+loaded_mods = []
+for artifact in sorted((game / 'mods').glob('*.jar')):
+    with zipfile.ZipFile(artifact) as archive:
+        mod = json.loads(archive.read('fabric.mod.json'))
+    loaded_mods.append({'id': mod['id'], 'version': mod['version'], 'file': artifact.name,
+                        'sha256': hashlib.sha256(artifact.read_bytes()).hexdigest()})
+(game / 'client-mods.json').write_text(json.dumps(loaded_mods, indent=2) + '\n', encoding='utf-8')
 (game / 'options.txt').write_text('\n'.join([
     'version:4955', 'lang:zh_cn', 'soundCategory_master:0.0', 'renderDistance:2',
     'simulationDistance:5', 'maxFps:20', 'pauseOnLostFocus:false', 'tutorialStep:none',
@@ -64,6 +95,9 @@ for library in profile['libraries']:
 arguments = [
     '-Xms256M', '-Xmx2G', '-XX:ActiveProcessorCount=4', '--enable-native-access=ALL-UNNAMED',
     '--add-exports=java.base/jdk.internal.misc=ALL-UNNAMED',
+    '-Dvcb.test.expectVoxy=' + str('voxy' in extra_ids).lower(),
+    '-Dvcb.test.checkAutomatic=' + str(args.check_automatic).lower(),
+    '-Dvoxy.geometryBufferSizeOverrideMB=256',
     '-Dminecraft.launcher.brand=VCBSyntheticTest', '-Dminecraft.launcher.version=1',
     '-cp', os.pathsep.join(str(path) for path in classpath),
     'net.fabricmc.loader.impl.launch.knot.KnotClient',

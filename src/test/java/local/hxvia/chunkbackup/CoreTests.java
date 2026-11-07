@@ -2,8 +2,10 @@ package local.hxvia.chunkbackup;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,8 +56,49 @@ public final class CoreTests {
         throw new AssertionError(message);
     }
 
+    private static void voxyCompatibility(Path root) throws Exception {
+        Path local = root.resolve("voxy-world");
+        Path cache = local.resolve("voxy/synthetic-render-cache/storage");
+        Io.directories(cache); Io.directories(local.resolve("data/voxy"));
+        Files.writeString(local.resolve("level.dat"), "synthetic world metadata");
+        Files.writeString(local.resolve("data/voxy/required.dat"), "synthetic gameplay data");
+        Files.writeString(cache.resolve("CURRENT"), "synthetic database state");
+        Files.writeString(cache.resolve("000001.sst"), "synthetic render data");
+        Files.writeString(cache.resolve("r.0.0.mca"), "not a Minecraft region");
+        Path databaseLock = cache.resolve("LOCK");
+        Files.writeString(databaseLock, "synthetic live database lock");
+        BackupStore isolated = new BackupStore(local, root.resolve("voxy-repository"), BackupStore.worldId(local));
+        boolean windows = System.getProperty("os.name").startsWith("Windows");
+        try (var channel = FileChannel.open(databaseLock, StandardOpenOption.READ, StandardOpenOption.WRITE);
+             var liveDatabase = channel.lock(); var lock = isolated.lock()) {
+            if (windows) rejects(() -> Files.readAllBytes(databaseLock), "fixture holds an unreadable Windows database lock");
+            var capture = isolated.beginCapture("voxy-world", Map.of("minecraft:overworld", ""), "test", "voxy-cache", 0, 120);
+            capture.captureRegions(); capture.publish(24, 0);
+            Snapshot snapshot = capture.snapshot;
+            check(snapshot.files.keySet().stream().noneMatch(path -> path.startsWith("voxy/")), "exclude the entire root Voxy database, not just LOCK");
+            check(snapshot.regionFingerprints.keySet().stream().noneMatch(path -> path.startsWith("voxy/")), "Voxy cache region-like files are not world chunks");
+            check(snapshot.files.containsKey("level.dat"), "Voxy exclusion preserves world metadata");
+            check(snapshot.files.containsKey("data/voxy/required.dat"), "Voxy exclusion is limited to the world root");
+            isolated.verify(snapshot); checks++;
+            Path exported = root.resolve("voxy-export");
+            WorldExport.export(isolated, snapshot, exported);
+            check(!Files.exists(exported.resolve("voxy")), "exports omit excluded render cache");
+            check(Files.readString(exported.resolve("data/voxy/required.dat")).equals("synthetic gameplay data"), "exports retain normal world data");
+        }
+        if (windows) {
+            Path required = local.resolve("data/voxy/required.dat");
+            try (var channel = FileChannel.open(required, StandardOpenOption.READ, StandardOpenOption.WRITE);
+                 var liveData = channel.lock(); var lock = isolated.lock()) {
+                rejects(() -> isolated.beginCapture("voxy-world", Map.of("minecraft:overworld", ""), "test", "locked-world-data", 0, 120),
+                        "unreadable real world data must still fail capture");
+                check(isolated.ids().size() == 1, "unreadable real data cannot publish an incomplete snapshot");
+            }
+        }
+    }
+
     public static void main(String[] args) throws Exception {
         Path root = Files.createTempDirectory(Path.of(args[0]), "synthetic-core-");
+        voxyCompatibility(root);
         world = root.resolve("synthetic-world"); Io.directories(world);
         store = new BackupStore(world, root.resolve("repository"), BackupStore.worldId(world));
         Files.writeString(world.resolve("level.dat"), "isolated synthetic metadata A");
